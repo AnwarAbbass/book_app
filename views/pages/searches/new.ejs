@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/public/styles/style.css" />
+  </head>
+  <body>
+    <header>BOOK SEARCH</header>
+    <main>
+      <form action="/searches" method="POST">
+        <input type="text" name="book" placeholder="Enter a title or author"/>
+        <input type="radio" id="title" name="book" value="title" />
+        <label for="title">Title</label><br />
+        <input type="radio" id="author" name="book" value="author" />
+        <label for="author">Author</label><br />
+        <button>SEARCH</button>
+      </form>
+    </main>
+  </body>
+</html>

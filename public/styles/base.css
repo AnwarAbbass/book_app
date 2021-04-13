@@ -1,0 +1,9 @@
+*{
+    box-sizing: border-box;
+}
+
+h1{
+    font-size: xx-large;
+    color: red;
+    background-color: aquamarine;
+}
