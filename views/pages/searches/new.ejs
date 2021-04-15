@@ -5,19 +5,32 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="/public/styles/style.css" />
+    <link rel="stylesheet" href="/styles/style.css" />
   </head>
   <body>
-    <header>BOOK SEARCH</header>
+    <header>
+      <div>
+        <h1>Best Books!</h1>
+      </div>
+    </header>
     <main>
-      <form action="/searches" method="POST">
-        <input type="text" name="book" placeholder="Enter a title or author" />
-        <input type="radio" id="title" name="book" value="title" />
-        <label for="title">Title</label><br />
-        <input type="radio" id="author" name="book" value="author" />
-        <label for="author">Author</label><br />
-        <button>SEARCH</button>
-      </form>
+      <nav>
+        <form action="/searches" method="POST">
+          <br />
+          <input
+            type="text"
+            name="book"
+            placeholder="Enter a title or author"
+          />
+          <br />
+          <br />
+          <input type="radio" id="intitle" name="book" value="intitle" />
+          <label for="title">Title</label><br /><br />
+          <input type="radio" id="inauthor" name="book" value="inauthor" />
+          <label for="author">Author</label><br /><br />
+          <button>SEARCH</button><br />
+        </form>
+      </nav>
     </main>
   </body>
 </html>
