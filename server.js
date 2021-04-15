@@ -3,6 +3,8 @@
 require('dotenv').config();
 const express = require('express');
 const superagent = require('superagent');
+const pg = require('pg');
+const client = new pg.Client({ connectionString: process.env.DATABASE_URL/*,ssl: process.env.LOCALLY ? false :{rejectUnauthorized: false}*/ });
 
 // setupes
 const PORT = process.env.PORT || 3030;
@@ -18,6 +20,8 @@ server.get('/', homeHandler);
 // server.get('/hello', helloHandler);
 server.get('/searches/new', newHandler);
 server.post('/searches', booksHandler);
+server.post('/books', addBook);
+server.get('/books/:id', getOneBook);
 
 // unfound route
 server.get('*', (req, res) => res.status(404).send('This route does not exist'));
@@ -32,7 +36,12 @@ function errorHandler(err, req, res, next) {
 
 // routes function
 function homeHandler(req, res) {
-    res.render('pages/index');
+    console.log('in home')
+    let SQL = 'SELECT * FROM books;';
+    client.query(SQL)
+        .then(result => {
+            res.render('pages/index', { results: result.rows, count: result.rowCount });
+        })
 }
 
 function helloHandler(req, res) {
@@ -40,48 +49,61 @@ function helloHandler(req, res) {
 }
 
 function newHandler(req, res) {
+    console.log('in new')
+
     res.render('pages/searches/new')
 }
 
-let c = [];
 
 async function booksHandler(req, res) {
-    //let 
-    let url = `https://www.googleapis.com/books/v1/volumes?q=${req.body.book[0]}`
-    // console.log(req.body.book);
-    if (req.body.book[1] === 'title') url += `+intitle:${req.body.book[0]};`
-    if (req.body.book[1] === 'author') url += `+inauthor:${req.body.book[0]};`
+    console.log('in books')
+
+    let url = `https://www.googleapis.com/books/v1/volumes?q=+${req.body.book[1]}:${req.body.book[0]}`
     console.log(url);
-    let data = await superagent.get(url)
-    console.log(data.body.items, 'data')
-    data.body.items.forEach(element => {
-        new Book(element.volumeInfo)
-    })
-    console.log('aaaaaa', c);
-    res.render('pages/searches/show', { searchResults: c })
+    superagent.get(url)
+        .then(data => {
+            let result = data.body.items.map(ele => new Book(ele.volumeInfo));
+            res.render('pages/searches/show', { results: result })
+        }).catch(error => res.send(error));
+}
 
-    // .then(data => {
+function addBook(req, res) {
+    console.log('in addbok')
 
-    //     let x = data.body.items.forEach(element => {
-    //         new Book(element.volumeInfo)
-    //         console.log('aaaaaa', c);
-    //     })
-    //     console.log('cccccccccccc', c);
-    //     // res.render('pages/searches/show', { searchResults: x })
-    // })
-    // .catch(error => res.send(error));
+    let { author, title, isbn, image_url, descriptions } = req.body;
+    console.log('req.body',req.body)
+    let SQL = `INSERT INTO books (author,title,isbn,image_url,descriptions) VALUES ($1,$2,$3,$4,$5) RETURNING *;`;
+    let safeValues = [author, title, isbn, image_url, descriptions];
+    client.query(SQL, safeValues)
+        .then(result => {
+            console.log('result',result.rows);
+            res.redirect(`/books/${result.rows[0].id}`);
+        }).catch(err => console.log(err));
+}
+
+function getOneBook(req, res) {
+    console.log('in getOneBook')
+
+    let SQL = 'SELECT * FROM books WHERE id=$1;';
+    let safeValue = [req.params.id]
+    // console.log('gggg', req.params)
+    client.query(SQL, safeValue)
+        .then(result => {
+            console.log('aaaaaa', result.rows[0])
+            res.render('pages/books/show', { results: result.rows[0]})
+        }).catch(err => res.send(err));
 }
 
 //constructor
 function Book(data) {
-    console.log('kkkk');
+    this.author = (data.authors) ? data.authors.join(',') : 'No author';
     this.title = data.title || 'No title';
-    this.author = (data.authors) ?data.authors.join(',') : 'No author';
-    this.description = data.description || 'No description';
-    this.image = (data.imageLinks) ? data.imageLinks.smallThumbnail : 'https://i.imgur.com/J5LVHEL.jpg';
-    c.push(this);
+    this.isbn = (data.industryIdentifiers && data.industryIdentifiers[0].identifier) ? data.industryIdentifiers[0].identifier : 'No ISBN';
+    this.image_url = (data.imageLinks) ? data.imageLinks.smallThumbnail : 'https://i.imgur.com/J5LVHEL.jpg';
+    // this.description = (data.description) ? data.description : 'No description';
 }
 
-server.listen(PORT, () => {
-    console.log(`Listening on PORT ${PORT}`)
-})
+client.connect()
+    .then(() => {
+        server.listen(PORT, () => console.log(`Listening on PORT ${PORT}`));
+    })

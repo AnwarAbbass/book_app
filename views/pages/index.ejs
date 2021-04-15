@@ -1,14 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="/styles/style.css">
-</head>
-<body>
-    <h1>hello</h1>
+    <link rel="stylesheet" href="/styles/style.css" />
+  </head>
+  <body>
+    <h2>hello</h2>
     <a href="/searches/new"> search</a>
-</body>
+
+    <main>
+      <nav>
+        <h3>
+          <% count %>  books
+        </h3>
+      </nav>
+      <div>
+        <% results.forEach( book => { %>
+        <nav>
+          <img src="<%= book.image_url %>" alt="" />
+          <h3><%= book.title %></h3>
+          <p><%= book.author %></p>
+          <a href="/books/<%= book.id%>" class="showbt">Show Details</a>
+        </nav>
+        <% }) %>
+      </div>
+    </main>
+  </body>
 </html>
