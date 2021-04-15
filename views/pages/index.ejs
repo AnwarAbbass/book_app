@@ -12,6 +12,12 @@
     <a href="/searches/new"> search</a>
 
     <main>
+      <nav>
+        <h3>
+          <% count %>  books
+        </h3>
+      </nav>
+
       <div>
         <% results.forEach( book => { %>
         <nav>
@@ -25,3 +31,4 @@
     </main>
   </body>
 </html>
+
