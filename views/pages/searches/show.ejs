@@ -9,19 +9,19 @@
   </head>
   <body>
     <header>
-      <nav>
+      <div>
         <h1>Best Books!</h1>
-      </nav>
+      </div>
     </header>
     <main>
       <div>
-        
-        <% searchResults.forEach( book => { %>
-          <% console.log(book) %> 
-        <img src="<%= book.image %>" alt="" />
-        <h3><%= book.title %></h3>
-        <p><%= book.author %></p>
-        <p><%= book.description %></p>
+        <% results.forEach( book => { %> <% console.log(book) %>
+        <nav>
+          <h3><%= book.title %></h3>
+          <img src="<%= book.image %>" alt="" />
+          <p><%= book.author %></p>
+          <p class="overflow"><%= book.description %></p>
+        </nav>
         <% }) %>
       </div>
     </main>

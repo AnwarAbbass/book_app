@@ -47,39 +47,21 @@ let c = [];
 
 async function booksHandler(req, res) {
     //let 
-    let url = `https://www.googleapis.com/books/v1/volumes?q=${req.body.book[0]}`
-    // console.log(req.body.book);
-    if (req.body.book[1] === 'title') url += `+intitle:${req.body.book[0]};`
-    if (req.body.book[1] === 'author') url += `+inauthor:${req.body.book[0]};`
+    let url = `https://www.googleapis.com/books/v1/volumes?q=+${req.body.book[1]}:${req.body.book[0]}`
     console.log(url);
-    let data = await superagent.get(url)
-    console.log(data.body.items, 'data')
-    data.body.items.forEach(element => {
-        new Book(element.volumeInfo)
-    })
-    console.log('aaaaaa', c);
-    res.render('pages/searches/show', { searchResults: c })
-
-    // .then(data => {
-
-    //     let x = data.body.items.forEach(element => {
-    //         new Book(element.volumeInfo)
-    //         console.log('aaaaaa', c);
-    //     })
-    //     console.log('cccccccccccc', c);
-    //     // res.render('pages/searches/show', { searchResults: x })
-    // })
-    // .catch(error => res.send(error));
+    superagent.get(url)
+    .then(data =>{
+      let result =data.body.items.map(ele=> new Book(ele.volumeInfo));
+      res.render('pages/searches/show', { results: result })
+    }).catch(error => res.send(error));
 }
 
 //constructor
 function Book(data) {
-    console.log('kkkk');
     this.title = data.title || 'No title';
     this.author = (data.authors) ?data.authors.join(',') : 'No author';
-    this.description = data.description || 'No description';
+    this.description = (data.description)?data.description: 'No description';
     this.image = (data.imageLinks) ? data.imageLinks.smallThumbnail : 'https://i.imgur.com/J5LVHEL.jpg';
-    c.push(this);
 }
 
 server.listen(PORT, () => {

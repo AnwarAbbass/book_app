@@ -1,5 +1,28 @@
-h1{
-    font-size: xx-large;
-    color: red;
-    background-color: aquamarine;
+
+
+nav {
+  display: flexbox;
+  margin: auto;
+  margin-top:15px ;
+  width: 60%;
+  border: 3.5px solid #131312;
+  box-shadow: 0 9px 8px 0px lightslategray;
+  padding: 10px;
+}
+
+img {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 180px;
+  height: 180px;
+}
+
+.overflow{
+    margin-top: 25px;
+    overflow:scroll;
+    height: 70px;
+    width: 90%;
 }
