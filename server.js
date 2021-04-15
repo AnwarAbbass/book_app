@@ -4,7 +4,7 @@ require('dotenv').config();
 const express = require('express');
 const superagent = require('superagent');
 const pg = require('pg');
-const client = new pg.Client({ connectionString: process.env.DATABASE_URL,ssl: process.env.LOCALLY ? false :{rejectUnauthorized: false} });
+const client = new pg.Client({ connectionString: process.env.DATABASE_URL/*,ssl: process.env.LOCALLY ? false :{rejectUnauthorized: false}*/ });
 
 // setupes
 const PORT = process.env.PORT || 3030;
