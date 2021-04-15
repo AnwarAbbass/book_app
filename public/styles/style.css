@@ -3,8 +3,3 @@
 @import url(layout.css);
 @import 'modules.css';
 
-h1{
-    font-size: xx-large;
-    color: red;
-    background-color: aquamarine;
-}
