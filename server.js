@@ -56,6 +56,7 @@ function newHandler(req, res) {
 
 
 async function booksHandler(req, res) {
+
     console.log('in books')
 
     let url = `https://www.googleapis.com/books/v1/volumes?q=+${req.body.book[1]}:${req.body.book[0]}`
@@ -92,6 +93,7 @@ function getOneBook(req, res) {
             console.log('aaaaaa', result.rows[0])
             res.render('pages/books/show', { results: result.rows[0]})
         }).catch(err => res.send(err));
+
 }
 
 //constructor
@@ -101,6 +103,7 @@ function Book(data) {
     this.isbn = (data.industryIdentifiers && data.industryIdentifiers[0].identifier) ? data.industryIdentifiers[0].identifier : 'No ISBN';
     this.image_url = (data.imageLinks) ? data.imageLinks.smallThumbnail : 'https://i.imgur.com/J5LVHEL.jpg';
     // this.description = (data.description) ? data.description : 'No description';
+
 }
 
 client.connect()

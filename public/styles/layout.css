@@ -1,7 +1,9 @@
+
+
 nav {
   display: flexbox;
   margin: auto;
-  margin-top: 15px;
+  margin-top:15px ;
   width: 60%;
   border: 3.5px solid #131312;
   box-shadow: 0 9px 8px 0px lightslategray;
@@ -9,8 +11,10 @@ nav {
 }
 
 img {
+
   margin-top: 15px;
   margin-bottom: 15px;
+
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -18,9 +22,11 @@ img {
   height: 180px;
 }
 
-.overflow {
-  margin-top: 25px;
-  overflow: scroll;
-  height: 70px;
-  width: 90%;
+
+.overflow{
+    margin-top: 25px;
+    overflow:scroll;
+    height: 70px;
+    width: 90%;
 }
+

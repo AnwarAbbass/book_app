@@ -3,13 +3,14 @@ p {
   text-align: center;
 }
 
-body {
-  background-color: rgba(190, 184, 184, 0.562);
+
+body{
+    background-color: rgba(190, 184, 184, 0.562);
 }
 
 h1 {
-  font-size: xx-large;
-  color: black;
-  background-color: rgb(181, 187, 185);
-  text-align: center;
-}
+    font-size: xx-large;
+    color: black;
+    background-color: rgb(181, 187, 185);
+    text-align: center;
+  }
