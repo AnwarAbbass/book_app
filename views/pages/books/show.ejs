@@ -11,12 +11,15 @@
     <header>
       <div>
         <h1>Best Books!</h1>
+        <a href="/searches/new"> search</a>
+        <a href="/"> Home</a>
       </div>
     </header>
     <main>
       <div>
         <%- include('details', {results})%>
       </div>
+      <%- include('edit',{results}) %> 
     </main>
     <footer></footer>
   </body>

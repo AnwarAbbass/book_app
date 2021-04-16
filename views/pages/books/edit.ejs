@@ -1,0 +1,22 @@
+<form action="/books/<%=results.id%>?_method=delete" method="post">
+  <button>Delete Book</button>
+</form>
+
+<button id="updateBtn">Update</button>
+
+<nav id="updateForm">
+  <h3>Update Book From</h3>
+  <form action="/books/<%=results.id%>?_method=put" method="post">
+    <input type="text" name="author" value="<%= results.author%>" />
+    <input type="text" name="title" value="<%= results.title%>" />
+    <input type="text" name="isbn" value="<%= results.isbn%>" />
+    <input type="text" name="image_url" value="<%= results.image_url%>" />
+    <textarea name="descriptions" cols="30" rows="10">
+<%= results.descriptions  %></textarea
+    >
+    <button>Update Book</button>
+  </form>
+</nav>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/js/app.js"></script>
