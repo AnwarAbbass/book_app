@@ -4,7 +4,10 @@ require('dotenv').config();
 const express = require('express');
 const superagent = require('superagent');
 const pg = require('pg');
-const client = new pg.Client({ connectionString: process.env.DATABASE_URL/*,ssl: process.env.LOCALLY ? false :{rejectUnauthorized: false}*/ });
+const NODE_ENV = process.env.NODE_ENV;
+const options = NODE_ENV === 'production' ? { connectionString: DATABASE_URL, ssl: { rejectUnauthorized: false } } : { connectionString: DATABASE_URL };
+const client = new pg.Client(options);
+
 const methodOverride = require('method-override');
 
 // setupes
@@ -45,7 +48,7 @@ function homeHandler(req, res) {
     client.query(SQL)
         .then(result => {
             res.render('pages/index', { results: result.rows, count: result.rowCount });
-        })
+        }).catch(err=> res.send(err));
 }
 
 function helloHandler(req, res) {
@@ -108,7 +111,7 @@ function updateData(req,res){
     client.query(SQL,safeValues)
     .then(()=>{
       res.redirect(`/books/${req.params.id}`);
-    })
+    }).catch(err=>res.send(err));
 }
 
 function deleteBook(req,res) {
@@ -116,6 +119,7 @@ function deleteBook(req,res) {
     let value = [req.params.id];
     client.query(SQL,value)
     .then(res.redirect('/'))
+    .catch(err=>res.send(err));
   }
 
 
